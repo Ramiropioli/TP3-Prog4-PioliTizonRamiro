@@ -2,6 +2,8 @@ import express from "express";
 import { conectarDB } from "./db.js";
 import VehiculosRoutes from "./vehiculos.js";
 import ConductoresRoutes from "./conductores.js";
+import ViajesRoutes from "./viajes.js";
+
 
 conectarDB();
 
@@ -12,6 +14,7 @@ app.use(express.json());
 
 app.use("/vehiculos", VehiculosRoutes);
 app.use("/conductores", ConductoresRoutes);
+app.use("/viajes", ViajesRoutes);
 
 
 app.get("/", (req, res) => {

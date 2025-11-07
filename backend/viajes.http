@@ -1,0 +1,56 @@
+### mostrar todos los viajes
+GET http://localhost:3000/viajes
+Content-Type: application/json
+
+###
+
+### mostar viaje por id
+
+GET http://localhost:3000/viajes/8
+Content-Type: application/json
+
+###
+
+### Crear nuevo viaje
+
+POST http://localhost:3000/viajes
+Content-Type: application/json
+
+{
+  "vehiculo_id": 13,
+  "conductor_id": 7,
+  "fecha_salida": "2025-11-10",
+  "fecha_llegada": "2025-11-12",
+  "origen": "la rioja",
+  "destino": "cordoba",
+  "kilometros": 500.00,
+  "observaciones": "sin novedades"
+}
+
+###
+
+# mostrar viajes por id de vehiculo
+
+GET http://localhost:3000/viajes/vehiculo/13
+Content-Type: application/json
+
+###
+
+# mostrar viajes por id de conductor
+
+GET http://localhost:3000/viajes/conductor/7
+Content-Type: application/json
+
+###
+
+# Calcular kilometros totales por vehiculo
+
+GET http://localhost:3000/viajes/kilometros/vehiculo/2
+Content-Type: application/json
+
+###
+
+# Calcular kilometros totales por conductor
+
+GET http://localhost:3000/viajes/kilometros/conductor/7
+Content-Type: application/json
