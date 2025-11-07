@@ -1,0 +1,48 @@
+@Url = http://localhost:3000
+
+###
+
+# Obtener todos los vehiculos
+GET {{Url}}/vehiculos
+
+
+###
+
+# Obtener un vehiculo por id
+GET {{Url}}/vehiculos/2
+ 
+
+###
+
+# Crear un nuevo vehiculo
+POST {{Url}}/vehiculos
+Content-Type: application/json
+
+
+{
+  "marca": "Ford",
+  "modelo": "Ranger",
+  "patente": "AE123FR",
+  "ano": 2021,
+  "capacidad_carga": 1500.50
+}
+
+###
+
+# Actualizar un vehiculo existente
+PUT {{Url}}/vehiculos/2
+Content-Type: application/json
+
+
+{
+  "marca": "toyota",
+  "modelo": "etios",
+  "patente": "AC443DD",
+  "ano": 2019,
+  "capacidad_carga": 1800.00
+}
+
+###
+
+# Eliminar un vehiculo
+DELETE {{Url}}/vehiculos/2
