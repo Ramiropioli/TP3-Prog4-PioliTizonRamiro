@@ -1,7 +1,7 @@
 import express from "express";
 import { conectarDB } from "./db.js";
 import VehiculosRoutes from "./vehiculos.js";
-
+import ConductoresRoutes from "./conductores.js";
 
 conectarDB();
 
@@ -11,6 +11,7 @@ const port = 3000;
 app.use(express.json());
 
 app.use("/vehiculos", VehiculosRoutes);
+app.use("/conductores", ConductoresRoutes);
 
 
 app.get("/", (req, res) => {
