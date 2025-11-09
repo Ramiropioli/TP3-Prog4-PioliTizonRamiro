@@ -3,18 +3,25 @@ import { conectarDB } from "./db.js";
 import VehiculosRoutes from "./vehiculos.js";
 import ConductoresRoutes from "./conductores.js";
 import ViajesRoutes from "./viajes.js";
-
+import UsuariosRoutes from "./usuarios.js";
+import AuthRoutes, { authConfig } from "./auth.js";
+import passport from "passport";
 
 conectarDB();
 
 const app = express();
 const port = 3000;
 
+authConfig();
+app.use(passport.initialize());
 app.use(express.json());
 
 app.use("/vehiculos", VehiculosRoutes);
 app.use("/conductores", ConductoresRoutes);
 app.use("/viajes", ViajesRoutes);
+app.use("/usuarios", UsuariosRoutes);
+app.use("/auth", AuthRoutes);
+
 
 
 app.get("/", (req, res) => {

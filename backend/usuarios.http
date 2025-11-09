@@ -1,0 +1,55 @@
+@url = http://localhost:3000
+
+### 
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+  "nombre": "novak",
+  "contrasena": "NOvak123"
+}
+
+###
+@token = {{ login.response.body.token }}
+
+### 
+# mostrar todos los usuarios
+GET {{url}}/usuarios
+Authorization: Bearer {{token}}
+
+### 
+
+# mostrar usuario por id
+GET {{url}}/usuarios/1
+Authorization: Bearer {{token}}
+
+### 
+# Crear un nuevo usuario
+POST {{url}}/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "novak",
+  "email": "novakdjockovic@gmail.com",
+  "contrasena": "NOvak123"
+}
+
+###
+
+# Actualizar un usuario
+PUT {{url}}/usuarios/7
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "novakdjokovic",
+  "email": "novak.djokovic@gmail.com"
+}
+
+### 
+
+# Eliminar un usuario
+DELETE {{url}}/usuarios/10
+Authorization: Bearer {{token}}
