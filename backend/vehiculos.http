@@ -2,14 +2,14 @@
 
 ###
 
-# Obtener todos los vehiculos
+# mostrar todos los vehiculos
 GET {{Url}}/vehiculos
 
 
 ###
 
-# Obtener un vehiculo por id
-GET {{Url}}/vehiculos/2
+# mostrar un vehiculo por id
+GET {{Url}}/vehiculos/33
  
 
 ###
@@ -20,16 +20,16 @@ Content-Type: application/json
 
 
 {
-  "marca": "Ford",
-  "modelo": "Ranger",
-  "patente": "AE123FR",
-  "ano": 2021,
-  "capacidad_carga": 1500.50
+  "marca": "renault",
+  "modelo": "clio",
+  "patente": "TFT256",
+  "ano": 2014,
+  "capacidad_carga": 300.00
 }
 
 ###
 
-# Actualizar un vehiculo existente
+# Actualizar un vehiculo 
 PUT {{Url}}/vehiculos/2
 Content-Type: application/json
 
