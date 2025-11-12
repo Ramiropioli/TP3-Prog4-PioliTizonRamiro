@@ -2,13 +2,13 @@ import express from "express";
 import { body, param } from "express-validator";
 import { db } from "./db.js";
 import { verificarValidaciones } from "./validaciones.js";
-import passport from "passport";
+import { autenticacion} from "./auth.js";
 
 const router = express.Router();
 
 const validarId = param("id").isInt().withMessage("el id debe ser positivo");
 
-router.get("/", async (req, res) => {
+router.get("/",autenticacion, async (req, res) => {
   try {
     const [rows] = await db.execute("SELECT * FROM vehiculos");
     res.json({ success: true, vehiculos: rows });
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", validarId, verificarValidaciones, async (req, res) => {
+router.get("/:id",autenticacion, validarId, verificarValidaciones, async (req, res) => {
   const id = Number(req.params.id);
   try {
     const [rows] = await db.execute("SELECT * FROM vehiculos WHERE id=?", [id]);
@@ -32,7 +32,7 @@ router.get("/:id", validarId, verificarValidaciones, async (req, res) => {
   }
 });
 
-router.post("/", [
+router.post("/",autenticacion, [
     body("marca").trim().notEmpty().withMessage("la marca es obligatoria").bail().isAlphanumeric('es-ES', { ignore: ' ' }).withMessage("marca solo puede usar letras, numeros y espacios"),
     body("modelo").trim().notEmpty().withMessage("el modelo es obligatorio").bail().isAlphanumeric('es-ES', { ignore: ' ' }).withMessage("modelo solo puede usar letras, numeros y espacios"),
     body("patente").trim().notEmpty().withMessage("la patente es obligatoria").bail().isAlphanumeric().withMessage("patente solo puede usar letras y numeros"),
@@ -64,7 +64,7 @@ router.post("/", [
   }
 );
 
-router.put("/:id", [
+router.put("/:id",autenticacion, [
     validarId,
     body("marca").optional().trim().notEmpty().withMessage("la marca no puede estar vacia").bail().isAlphanumeric('es-ES', { ignore: ' ' }).withMessage("marca solo puede usar letras, numeros y espacios"),
     body("modelo").optional().trim().notEmpty().withMessage("el modelo no puede estar vacio").bail().isAlphanumeric('es-ES', { ignore: ' ' }).withMessage("modelo solo puede usar letras, numeros y espacios"),
@@ -89,7 +89,7 @@ router.put("/:id", [
           "UPDATE vehiculos SET marca=?, modelo=?, patente=?, ano=?, capacidad_carga=? WHERE id=?",
           [marca, modelo, patente, ano, capacidad_carga, id]
       );
-      if (result.affectedRows === 0) {
+      if (result.length === 0) {
           return res.status(404).json({ success: false, message: "vehiculo no encontrado" });
       }
       res.json({ success: true, data: { id, ...req.body } });
@@ -99,7 +99,7 @@ router.put("/:id", [
     } 
 });
 
-router.delete("/:id", validarId, verificarValidaciones, async (req, res) => {
+router.delete("/:id",autenticacion, validarId, verificarValidaciones, async (req, res) => {
     const id = Number(req.params.id);
     try {
       
@@ -110,7 +110,7 @@ router.delete("/:id", validarId, verificarValidaciones, async (req, res) => {
       }
 
       const [result] = await db.execute("DELETE FROM vehiculos WHERE id=?", [id]);
-      if (result.affectedRows === 0) {
+      if (result.length === 0) {
           return res.status(404).json({ success: false, message: "vehiculo no encontrado" });
       }
       res.json({ success: true, message: "vehiculo eliminado correctamente" });

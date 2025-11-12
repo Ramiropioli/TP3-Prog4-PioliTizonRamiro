@@ -2,10 +2,11 @@ import express from "express";
 import { body, param } from "express-validator";
 import { db } from "./db.js";
 import { verificarValidaciones, validarId } from "./validaciones.js";
+import { autenticacion } from "./auth.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/",autenticacion, async (req, res) => {
   try {
     const [rows] = await db.execute(`
       SELECT 
@@ -25,7 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", validarId, verificarValidaciones, async (req, res) => {
+router.get("/:id",autenticacion, validarId, verificarValidaciones, async (req, res) => {
   const id = Number(req.params.id);
   try {
     const [rows] = await db.execute("SELECT * FROM viajes WHERE id=?", [id]);
@@ -82,7 +83,7 @@ router.post("/", [
 const validarVehiculoId = param("vehiculo_id").isInt({ min: 1 }).withMessage("el id de vehiculo no es valido");
 const validarConductorId = param("conductor_id").isInt({ min: 1 }).withMessage("el id de conductor no es valido");
 
-router.get("/vehiculo/:vehiculo_id", validarVehiculoId, verificarValidaciones, async (req, res) => {
+router.get("/vehiculo/:vehiculo_id",autenticacion, validarVehiculoId, verificarValidaciones, async (req, res) => {
   const vehiculo_id = Number(req.params.vehiculo_id);
   try {
     const [rows] = await db.execute("SELECT * FROM viajes WHERE vehiculo_id=?", [vehiculo_id]);
@@ -96,7 +97,7 @@ router.get("/vehiculo/:vehiculo_id", validarVehiculoId, verificarValidaciones, a
   }
 });
 
-router.get("/conductor/:conductor_id", validarConductorId, verificarValidaciones, async (req, res) => {
+router.get("/conductor/:conductor_id",autenticacion, validarConductorId, verificarValidaciones, async (req, res) => {
   const conductor_id = Number(req.params.conductor_id);
   try {
     const [rows] = await db.execute("SELECT * FROM viajes WHERE conductor_id=?", [conductor_id]);
@@ -110,7 +111,7 @@ router.get("/conductor/:conductor_id", validarConductorId, verificarValidaciones
   }
 });
 
-router.get("/kilometros/vehiculo/:vehiculo_id", validarVehiculoId, verificarValidaciones, async (req, res) => {
+router.get("/kilometros/vehiculo/:vehiculo_id",autenticacion, validarVehiculoId, verificarValidaciones, async (req, res) => {
   const vehiculo_id = Number(req.params.vehiculo_id);
   try {
     const [rows] = await db.execute(
@@ -129,7 +130,7 @@ router.get("/kilometros/vehiculo/:vehiculo_id", validarVehiculoId, verificarVali
   }
 });
 
-router.get("/kilometros/conductor/:conductor_id", validarConductorId, verificarValidaciones, async (req, res) => {
+router.get("/kilometros/conductor/:conductor_id",autenticacion, validarConductorId, verificarValidaciones, async (req, res) => {
   const conductor_id = Number(req.params.conductor_id);
   try {
     const [rows] = await db.execute(

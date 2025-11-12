@@ -2,10 +2,11 @@ import express from "express";
 import { body } from "express-validator";
 import { db } from "./db.js";
 import { verificarValidaciones, validarId } from "./validaciones.js";
+import { autenticacion} from "./auth.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/",autenticacion, async (req, res) => {
   try {
     const [rows] = await db.execute("SELECT * FROM conductores");
     res.json({ success: true, conductores: rows });
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", validarId, verificarValidaciones, async (req, res) => {
+router.get("/:id",autenticacion, validarId, verificarValidaciones, async (req, res) => {
   const id = Number(req.params.id);
   try {
     const [rows] = await db.execute("SELECT * FROM conductores WHERE id=?", [id]);
@@ -29,7 +30,7 @@ router.get("/:id", validarId, verificarValidaciones, async (req, res) => {
   }
 });
 
-router.post("/", [
+router.post("/", autenticacion, [
     body("nombre").trim().notEmpty().withMessage("el nombre es obligatorio").bail().isAlpha('es-ES', { ignore: ' ' }).withMessage("nombre solo puede usar letras y espacios"),
     body("apellido").trim().notEmpty().withMessage("el apellido es obligatorio").bail().isAlpha('es-ES', { ignore: ' ' }).withMessage("apellido solo puede usar letras y espacios"),
     body("dni").trim().notEmpty().withMessage("el dni es obligatorio").bail().isNumeric().withMessage("dni debe ser numerico"),
@@ -61,7 +62,7 @@ router.post("/", [
   }
 );
 
-router.put("/:id", [
+router.put("/:id",autenticacion, [
     validarId,
     body("nombre").optional().trim().notEmpty().withMessage("el nombre no puede estar vacio").bail().isAlpha('es-ES', { ignore: ' ' }).withMessage("nombre solo puede usar letras y espacios"),
     body("apellido").optional().trim().notEmpty().withMessage("el apellido no puede estar vacio").bail().isAlpha('es-ES', { ignore: ' ' }).withMessage("apellido solo puede usar letras y espacios"),
@@ -86,7 +87,7 @@ router.put("/:id", [
           "UPDATE conductores SET nombre=?, apellido=?, dni=?, licencia=?, vencimiento_licencia=? WHERE id=?",
           [nombre, apellido, dni, licencia, vencimiento_licencia, id]
       );
-      if (result.affectedRows === 0) {
+      if (result.length === 0) {
           return res.status(404).json({ success: false, message: "conductor no encontrado" });
       }
       res.json({ success: true, data: { id, ...req.body } });
@@ -96,7 +97,7 @@ router.put("/:id", [
     }
 });
 
-router.delete("/:id", validarId, verificarValidaciones, async (req, res) => {
+router.delete("/:id",autenticacion, validarId, verificarValidaciones, async (req, res) => {
     const id = Number(req.params.id);
     try {
       
@@ -107,7 +108,7 @@ router.delete("/:id", validarId, verificarValidaciones, async (req, res) => {
       }
 
       const [result] = await db.execute("DELETE FROM conductores WHERE id=?", [id]);
-      if (result.affectedRows === 0) {
+      if (result.length === 0) {
           return res.status(404).json({ success: false, message: "conductor no encontrado" });
       }
       res.json({ success: true, message: "conductor eliminado correctamente" });

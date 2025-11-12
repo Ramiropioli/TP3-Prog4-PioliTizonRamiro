@@ -1,5 +1,6 @@
 import express from "express";
 import { conectarDB } from "./db.js";
+import cors from "cors";
 import VehiculosRoutes from "./vehiculos.js";
 import ConductoresRoutes from "./conductores.js";
 import ViajesRoutes from "./viajes.js";
@@ -15,13 +16,14 @@ const port = 3000;
 authConfig();
 app.use(passport.initialize());
 app.use(express.json());
+app.use(cors()); 
 
 app.use("/vehiculos", VehiculosRoutes);
 app.use("/conductores", ConductoresRoutes);
 app.use("/viajes", ViajesRoutes);
 app.use("/usuarios", UsuariosRoutes);
-app.use("/auth", AuthRoutes);
 
+app.use("/", AuthRoutes); 
 
 
 app.get("/", (req, res) => {

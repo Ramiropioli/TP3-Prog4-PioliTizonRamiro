@@ -1,4 +1,4 @@
-import { param, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 
 export const validarId = param("id").isInt({ min: 1 }).withMessage("el id debe ser positivo");
 
