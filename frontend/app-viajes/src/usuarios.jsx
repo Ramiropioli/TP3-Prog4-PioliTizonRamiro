@@ -22,7 +22,7 @@ export const Usuarios = () => {
     fetchUsuarios();
   }, []);
 
-  const handleQuitar = async (id) => {
+  const eliminarusuario = async (id) => {
     if (window.confirm("¿Desea quitar este usuario?")) {
       try {
         const response = await fetchAuth(`http://localhost:3000/usuarios/${id}`, {
@@ -65,7 +65,7 @@ export const Usuarios = () => {
               <td>
                 <div>
                   <Link role="button" to={`/usuarios/${usuario.id}/modificar`}>Modificar</Link>
-                  <button onClick={() => handleQuitar(usuario.id)}>Eliminar</button>
+                  <button onClick={() => eliminarusuario(usuario.id)}>Eliminar</button>
                 </div>
               </td>
             </tr>
