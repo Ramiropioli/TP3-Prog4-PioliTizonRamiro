@@ -87,25 +87,13 @@ router.put(
   autenticacion,
   validarId,
   [
-    body("nombre").optional().notEmpty().withMessage("El nombre no puede estar vacío"),
-    body("email").optional().isEmail().withMessage("El email no es válido"),
-    body("contrasena")
-      .optional()
-      .isStrongPassword({
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 0,
-      })
-      .withMessage(
-        "La contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero."
-      ),
+    body("nombre").notEmpty().withMessage("El nombre no puede estar vacío"),
+    body("email").isEmail().withMessage("El email no es válido"),
   ],
   verificarValidaciones,
   async (req, res) => {
     const id = Number(req.params.id);
-    const { nombre, email, contrasena } = req.body;
+    const { nombre, email } = req.body;
 
     try {
       if (email || nombre) {
@@ -118,9 +106,12 @@ router.put(
         }
       }
 
-      const hashedPassword = await bcrypt.hash(contrasena || "", 10);
+      const [currentUser] = await db.execute("SELECT * FROM usuarios WHERE id = ?", [id]);
+      if (currentUser.length === 0) {
+        return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+      }
 
-      await db.execute("UPDATE usuarios SET nombre = ?, email = ?, contrasena = ? WHERE id = ?", [nombre, email, hashedPassword, id]);
+      await db.execute("UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?", [nombre, email, id]);
 
       res.json({ success: true, message: "Usuario actualizado exitosamente" });
     } catch (error) {

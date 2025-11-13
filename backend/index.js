@@ -23,7 +23,7 @@ app.use("/conductores", ConductoresRoutes);
 app.use("/viajes", ViajesRoutes);
 app.use("/usuarios", UsuariosRoutes);
 
-app.use("/", AuthRoutes); 
+app.use("/auth", AuthRoutes); 
 
 
 app.get("/", (req, res) => {
