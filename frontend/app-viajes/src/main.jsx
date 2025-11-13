@@ -12,6 +12,9 @@ import { ModificarUsuario } from './ModificarUsuario.jsx'
 import { Conductores } from './Conductores.jsx'
 import { CrearConductor } from './CrearConductor.jsx'
 import { ModificarConductor } from './ModificarConductor.jsx'
+import { Vehiculos } from './vehiculos.jsx'
+import { CrearVehiculo } from './CrearVehiculo.jsx'
+import { ModificarVehiculo } from './ModificarVehiculo.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -24,8 +27,8 @@ createRoot(document.getElementById('root')).render(
 
            
             <Route path="ingresar" element={<Ingresar />} />
-            <Route path="usuarios/crear" element={<CrearUsuario />} />
 
+            <Route path="usuarios/crear" element={<CrearUsuario />} />
             <Route path="usuarios" element={<Autenticar><Usuarios /></Autenticar>} />
             <Route path="usuarios/:id/modificar" element={<Autenticar><ModificarUsuario /></Autenticar>} />
 
@@ -33,6 +36,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="conductores/crear" element={<Autenticar><CrearConductor /></Autenticar>} />
             <Route path="conductores/:id/modificar" element={<Autenticar><ModificarConductor /></Autenticar>} />
 
+            <Route path="vehiculos" element={<Autenticar><Vehiculos /></Autenticar>} />
+            <Route path="vehiculos/crear" element={<Autenticar><CrearVehiculo /></Autenticar>} />
+            <Route path="vehiculos/:id/modificar" element={<Autenticar><ModificarVehiculo /></Autenticar>} />
+
+        
           </Route>
         </Routes>
       </AuthProvider>
