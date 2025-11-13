@@ -15,6 +15,8 @@ import { ModificarConductor } from './ModificarConductor.jsx'
 import { Vehiculos } from './vehiculos.jsx'
 import { CrearVehiculo } from './CrearVehiculo.jsx'
 import { ModificarVehiculo } from './ModificarVehiculo.jsx'
+import { Viajes } from './Viajes.jsx'
+import { CrearViaje } from './CrearViaje.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -40,7 +42,9 @@ createRoot(document.getElementById('root')).render(
             <Route path="vehiculos/crear" element={<Autenticar><CrearVehiculo /></Autenticar>} />
             <Route path="vehiculos/:id/modificar" element={<Autenticar><ModificarVehiculo /></Autenticar>} />
 
-        
+            <Route path="viajes" element={<Autenticar><Viajes /></Autenticar>} />
+            <Route path="viajes/crear" element={<Autenticar><CrearViaje /></Autenticar>} />
+
           </Route>
         </Routes>
       </AuthProvider>
