@@ -20,8 +20,10 @@ export const Layout = () => {
         <li>
           {token ? (
             <button onClick={() => logout()}>Salir</button>
-          ) : (
-            <Link to="/ingresar" role="button">Ingresar</Link>
+          ) : (            <div className="grid">
+              <Link to="/ingresar" role="button">Ingresar</Link>
+              <Link to="/Registrarse" role="button">Registrarse</Link>
+            </div>
           )}
         </li>
       </nav>

@@ -18,6 +18,7 @@ import { ModificarVehiculo } from './ModificarVehiculo.jsx'
 import { Viajes } from './Viajes.jsx'
 import { CrearViaje } from './CrearViaje.jsx'
 import { Reportes } from './Reportes.jsx'
+import { Registrarse } from './Registrarse.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,8 +28,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Layout />}>
             <Route index element={<App />} />
 
-           
             <Route path="ingresar" element={<Ingresar />} />
+            <Route path="registrarse" element={<Registrarse />} />
 
             <Route path="usuarios/crear" element={<CrearUsuario />} />
             <Route path="usuarios" element={<Autenticar><Usuarios /></Autenticar>} />
