@@ -70,7 +70,7 @@ router.post(
 
     const payload = { userId: usuarios[0].id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "4h",
     });
 
     res.json({
